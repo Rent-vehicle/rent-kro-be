@@ -6,6 +6,7 @@ It allows **users** to rent cars/bikes, **owners** to list their vehicles, and *
 ---
 
 ## 🚀 Tech Stack
+
 - [AdonisJS 5](https://adonisjs.com/) - Node.js MVC framework
 - PostgreSQL - Database
 - AWS - Cloud Hosting
@@ -15,6 +16,7 @@ It allows **users** to rent cars/bikes, **owners** to list their vehicles, and *
 ---
 
 ## 📌 Features (MVP)
+
 - User authentication (signup/login) (to be done)
 - Vehicle listing & search (to be done)
 - Booking system (to be done)
@@ -26,7 +28,9 @@ It allows **users** to rent cars/bikes, **owners** to list their vehicles, and *
 ## ⚙️ Setup Instructions
 
 ### 1. Clone Repo
+
 ```bash
 git clone https://github.com/Lalit-001/rent-kro-be.git
 cd rent-kro-be
 
+```
