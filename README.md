@@ -28,5 +28,5 @@ It allows **users** to rent cars/bikes, **owners** to list their vehicles, and *
 ### 1. Clone Repo
 ```bash
 git clone https://github.com/Lalit-001/rent-kro-be.git
-cd rent-karo-be
+cd rent-kro-be
 
