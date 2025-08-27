@@ -25,4 +25,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   FE_BASE_URL: Env.schema.string(),
   POSTMARK_EMAIL: Env.schema.string({ format: 'email' }),
   POSTMARK_API_KEY: Env.schema.string(),
+  MAIL_HOST: Env.schema.string(),
+  MAIL_PORT: Env.schema.number(),
+  MAIL_SECURE: Env.schema.boolean(),
+  SENDER_MAIL: Env.schema.string({ format: 'email' }),
+  MAIL_APP_PASSWORD: Env.schema.string(),
 })

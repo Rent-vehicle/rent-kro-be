@@ -5,6 +5,7 @@ import hash from '@adonisjs/core/services/hash'
 import { beforeSave, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import AppBaseModel from './app_base_model.js'
+import { USER_STATUS_ENUM } from '../constants/enums/user.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -14,6 +15,9 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 export default class User extends compose(AppBaseModel, AuthFinder) {
   @column({ isPrimary: true })
   declare id: number
+
+  @column()
+  declare cognitoSub: string
 
   @column()
   declare firstName: string
@@ -26,6 +30,45 @@ export default class User extends compose(AppBaseModel, AuthFinder) {
 
   @column({ serializeAs: null })
   declare password: string
+
+  @column()
+  declare phoneNumber: string
+
+  @column()
+  declare emailVerified: boolean
+
+  @column()
+  declare phoneNumberVerified: boolean
+
+  @column()
+  declare displayName: string
+
+  @column()
+  declare avatarUrl: string
+
+  @column()
+  declare dateOfBirth: DateTime
+
+  @column()
+  declare gender: string
+
+  @column()
+  declare status: USER_STATUS_ENUM
+
+  @column()
+  declare preferredLanguage: string
+
+  @column()
+  declare preferredCityId: number
+
+  @column()
+  declare emergencyContact: Object // {name, phone, relationship}
+
+  @column()
+  declare lastActiveAt: DateTime
+
+  @column()
+  declare deletedAt: DateTime
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

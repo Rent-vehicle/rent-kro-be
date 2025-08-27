@@ -11,7 +11,7 @@ export const verifyUserCodeValidator = vine.compile(
 export const signupValidator = vine.compile(
   vine.object({
     firstName: vine.string().trim(),
-    lastName: vine.string().trim(),
+    lastName: vine.string().trim().optional(),
     email: vine.string().trim().email(),
     password: vine
       .string()

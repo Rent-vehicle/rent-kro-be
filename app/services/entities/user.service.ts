@@ -1,4 +1,4 @@
-import { UserCreateDTO, UserUpdateDTO } from '#models/dto/user/user'
+import { UserCreateDTO, UserUpdateDTO } from '../../constants/dto/user/user.js'
 import ResetPasswordToken from '#models/reset_password_token'
 import User from '#models/user'
 import hash from '@adonisjs/core/services/hash'

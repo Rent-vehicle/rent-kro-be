@@ -19,3 +19,12 @@ export const POSTMARK_EMAIL = env.get('POSTMARK_EMAIL')
 
 // FE configuration
 export const FE_BASE_URL = env.get('FE_BASE_URL')
+
+// Mail configuration
+export const MAIL_HOST = env.get('MAIL_HOST')
+export const MAIL_PORT = env.get('MAIL_PORT')
+export const MAIL_SECURE = env.get('MAIL_SECURE')
+export const SENDER_MAIL = env.get('SENDER_MAIL')
+export const MAIL_APP_PASSWORD = env.get('MAIL_APP_PASSWORD')
+
+// Message sent: <30bcff7b-a564-06d1-65eb-1b5567a4cd8c@gmail.com>

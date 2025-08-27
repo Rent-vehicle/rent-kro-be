@@ -6,12 +6,12 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.string('cognito_sub').unique().notNullable()
+      table.string('cognito_sub').unique().nullable()
       table.string('email').notNullable().unique()
       table.string('phone').nullable()
       table.boolean('phone_verified').defaultTo(false)
       table.boolean('email_verified').defaultTo(false)
-      table.string('first_name').nullable()
+      table.string('first_name').notNullable()
       table.string('last_name').nullable()
       table.string('display_name').nullable()
       table.string('password').nullable() // Nullable for social login users
