@@ -1,21 +1,18 @@
-import InternalServerErrorException from '#exceptions/internal_server_error_exception'
+import BadRequestException from '#exceptions/bad_request_exception.ts'
 import InvalidCredentialsException from '#exceptions/invalid_credentials_exception'
 import ModelAlreadyExistsException from '#exceptions/model_already_exists_exception'
 import NotFoundException from '#exceptions/not_found_exception'
 import User from '#models/user'
 import { authService } from '#services/entities/auth.service'
-import { emailService } from '#services/factories/email_service'
 import { userService } from '#services/entities/user.service'
 import { HttpContext } from '@adonisjs/core/http'
 import { userTransformer } from '../transformer/user/user_base_transformer.js'
-import { FE_BASE_URL } from '../utils/secret.js'
 import {
   forgetPasswordValidator,
   loginValidator,
   resetPasswordValidator,
   signupValidator,
 } from '../validator/auth_validator.js'
-import BadRequestException from '#exceptions/bad_request_exception.ts'
 
 export default class AuthController {
   public async signup({ request, response }: HttpContext) {
@@ -51,30 +48,6 @@ export default class AuthController {
     })
   }
 
-  private async saveResetPasswordToken(user: User) {
-    const generatedToken = await userService.generateToken(user.email + user.firstName)
-    const resetPasswordToken = await userService.findResetPasswordToken('email', user.email)
-
-    if (resetPasswordToken) {
-      await userService.updateResetPasswordToken(resetPasswordToken, generatedToken)
-    } else {
-      await userService.createResetPasswordToken(generatedToken, user.email)
-    }
-
-    const redirectLink = `${FE_BASE_URL}/auth/reset-password?token=${generatedToken}`
-
-    try {
-      await emailService.sendResetPasswordEmail(
-        { email: user.email, name: user.firstName + ' ' + user.lastName },
-        redirectLink
-      )
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to send password reset email. Please try again later.'
-      )
-    }
-  }
-
   public async forgetPassword({ request, response }: HttpContext) {
     const { email } = await request.validateUsing(forgetPasswordValidator)
 
@@ -83,7 +56,7 @@ export default class AuthController {
       throw new NotFoundException('User not found')
     }
 
-    await this.saveResetPasswordToken(user)
+    await authService.saveResetPasswordToken(user)
 
     return response.json({
       message: 'Verification link sent to registered email successfully!',
@@ -96,7 +69,7 @@ export default class AuthController {
     const tokenRecord = await userService.findResetPasswordToken('token', token)
 
     if (!tokenRecord) {
-      throw new NotFoundException('Token is not valid!')
+      throw new BadRequestException('Password reset link has expired. Please try again.')
     }
 
     const user = await userService.find('email', tokenRecord.email)
@@ -122,7 +95,7 @@ export default class AuthController {
           message: 'Password reset successfully',
         })
       } else {
-        throw new BadRequestException('Token is not valid!')
+        throw new BadRequestException('Password reset link has expired. Please try again.')
       }
     }
   }

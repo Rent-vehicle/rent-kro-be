@@ -11,6 +11,10 @@ import router from '@adonisjs/core/services/router'
 
 router.get('/', async () => {
   return {
-    hello: 'world',
+    hello: 'All Good Here',
+    status: 'Server is running...',
   }
 })
+
+import '../app/routes/auth.js'
+import '../app/routes/user.js'

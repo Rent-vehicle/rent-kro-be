@@ -6,7 +6,7 @@ import type { NextFn } from '@adonisjs/core/types/http'
 
 export default class AuthMiddleware {
   public async handle(ctx: HttpContext, next: NextFn) {
-    const authHeader = ctx.request.header('authorization')
+    const authHeader = ctx.request.header('Authorization')
     if (!authHeader) {
       throw UnAuthenticatedException.noToken()
     }
