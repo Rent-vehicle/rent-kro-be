@@ -83,10 +83,7 @@ class EmailVerification {
           emailVerificationCode = await emailVerificationService.updateExpiredCodesToNew(
             emailVerificationCode.id
           )
-          console.log(
-            'emailVerificationCode-----------=====================',
-            emailVerificationCode
-          )
+
           code = emailVerificationCode.code
         } else {
           // Still valid → maybe extend expiry if close to expiring
@@ -106,7 +103,6 @@ class EmailVerification {
         emailVerificationCode = await emailVerificationService.createNewCodeForUser(user.id)
         code = emailVerificationCode.code
       }
-      console.log('=================================code is ', code)
 
       const { success, message } = await this.sendEmailVerificationCode(user, code)
       return { success, message }
@@ -142,7 +138,6 @@ class EmailVerification {
   public isExpired(emailVerification: EmailVerificationCode | null): boolean {
     if (!emailVerification) return true
 
-    console.log()
     return emailVerification.expiresAt <= DateTime.now()
   }
 
