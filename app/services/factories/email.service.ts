@@ -49,8 +49,10 @@ class EmailService {
         html: options.html,
       })
       console.log('Email sent successfully using Nodemailer:', response)
+      return response
     } catch (error) {
       console.error('Error sending email using Nodemailer:', error)
+      return error
     }
   }
 

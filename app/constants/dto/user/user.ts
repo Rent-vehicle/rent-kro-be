@@ -8,4 +8,5 @@ export type UserCreateDTO = {
 export type UserUpdateDTO = {
   firstName?: string
   lastName?: string
+  emailVerified?: boolean
 }

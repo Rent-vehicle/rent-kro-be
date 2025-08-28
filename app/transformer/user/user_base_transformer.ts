@@ -2,7 +2,7 @@ import User from '#models/user'
 
 type UserResponse = Pick<
   User,
-  'id' | 'firstName' | 'lastName' | 'email' | 'createdAt' | 'updatedAt'
+  'id' | 'firstName' | 'lastName' | 'email' | 'createdAt' | 'updatedAt' | 'emailVerified'
 >
 export const userTransformer = (user: User): UserResponse => {
   return {
@@ -12,5 +12,6 @@ export const userTransformer = (user: User): UserResponse => {
     email: user.email,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
+    emailVerified: user.emailVerified,
   }
 }
