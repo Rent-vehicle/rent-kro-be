@@ -23,8 +23,8 @@ export default class extends BaseSchema {
       table.integer('preferred_city_id').references('id').inTable('cities').nullable()
       table.json('emergency_contact').nullable()
       table.timestamp('last_active_at').nullable()
-      table.timestamp('created_at').notNullable().defaultTo(this.now())
-      table.timestamp('updated_at').nullable()
+      table.timestamp('created_at').defaultTo(this.now())
+      table.timestamp('updated_at').defaultTo(this.now())
       table.timestamp('deleted_at').nullable()
     })
   }

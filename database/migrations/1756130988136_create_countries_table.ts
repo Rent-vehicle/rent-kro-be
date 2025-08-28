@@ -10,8 +10,8 @@ export default class extends BaseSchema {
       table.string('code', 2).notNullable().unique()
       table.string('currency_code', 3).notNullable()
       table.string('phone_prefix').notNullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table.timestamp('created_at').defaultTo(this.now())
+      table.timestamp('updated_at').defaultTo(this.now())
     })
   }
 

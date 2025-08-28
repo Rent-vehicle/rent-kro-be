@@ -26,5 +26,10 @@ export const MAIL_PORT = env.get('MAIL_PORT')
 export const MAIL_SECURE = env.get('MAIL_SECURE')
 export const SENDER_MAIL = env.get('SENDER_MAIL')
 export const MAIL_APP_PASSWORD = env.get('MAIL_APP_PASSWORD')
+export const SUPPORT_EMAIL = env.get('SUPPORT_EMAIL')
+export const SENDER_MAIL_NAME = env.get('SENDER_MAIL_NAME')
+
+//Business configuration
+export const BUSINESS_NAME = env.get('BUSINESS_NAME')
 
 // Message sent: <30bcff7b-a564-06d1-65eb-1b5567a4cd8c@gmail.com>

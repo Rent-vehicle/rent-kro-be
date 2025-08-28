@@ -30,4 +30,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   MAIL_SECURE: Env.schema.boolean(),
   SENDER_MAIL: Env.schema.string({ format: 'email' }),
   MAIL_APP_PASSWORD: Env.schema.string(),
+  SENDER_MAIL_NAME: Env.schema.string(),
+  SUPPORT_EMAIL: Env.schema.string({ format: 'email' }),
+  BUSINESS_NAME: Env.schema.string(),
 })

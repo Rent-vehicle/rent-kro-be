@@ -2,32 +2,46 @@ import BadRequestException from '#exceptions/bad_request_exception.ts'
 import InvalidCredentialsException from '#exceptions/invalid_credentials_exception'
 import ModelAlreadyExistsException from '#exceptions/model_already_exists_exception'
 import NotFoundException from '#exceptions/not_found_exception'
+import UnAuthenticatedException from '#exceptions/unauthenticated_exception'
 import User from '#models/user'
 import { authService } from '#services/entities/auth.service'
+import { emailVerificationService } from '#services/entities/email_verification_code.service'
 import { userService } from '#services/entities/user.service'
+import { Exception } from '@adonisjs/core/exceptions'
 import { HttpContext } from '@adonisjs/core/http'
+import { StatusCodes } from 'http-status-codes'
+import { DateTime } from 'luxon'
 import { userTransformer } from '../transformer/user/user_base_transformer.js'
 import {
   forgetPasswordValidator,
   loginValidator,
   resetPasswordValidator,
   signupValidator,
+  verifyEmailValidator,
 } from '../validator/auth_validator.js'
 
 export default class AuthController {
   public async signup({ request, response }: HttpContext) {
-    const { ...sanitizedData } = await request.validateUsing(signupValidator)
-    const user = await authService.findByEmail(sanitizedData.email)
-    if (user) {
-      throw new ModelAlreadyExistsException('User already exists with this email!')
+    const sanitizedData = await request.validateUsing(signupValidator)
+
+    const existingUser = await authService.findByEmail(sanitizedData.email)
+
+    if (existingUser) {
+      throw new ModelAlreadyExistsException(
+        'If this email is registered, you’ll receive a verification code'
+      )
     }
 
-    const newUser = await userService.createUser(sanitizedData)
-    const token = await authService.createAccessToken(newUser)
+    const user = await userService.createUser(sanitizedData)
+
+    const { success } = await emailVerificationService.generateAndSendVerificationCode(user)
+
+    const token = await authService.createAccessToken(user)
 
     return response.json({
-      user: userTransformer(newUser),
+      user: userTransformer(user),
       token: token,
+      isVerificationEmailSent: success,
     })
   }
 
@@ -98,6 +112,50 @@ export default class AuthController {
         throw new BadRequestException('Password reset link has expired. Please try again.')
       }
     }
+  }
+
+  public async verifyEmail({ request, response }: HttpContext) {
+    const { code } = await request.validateUsing(verifyEmailValidator)
+
+    const emailVerificationCode = await emailVerificationService.findByCode(+code)
+    const isExpired = emailVerificationService.isExpired(emailVerificationCode)
+    const isValid = emailVerificationService.isValid(emailVerificationCode)
+    const isUsed = emailVerificationService.isUsed(emailVerificationCode)
+
+    if (isUsed) {
+      throw new Exception('Email already verified!', { status: StatusCodes.CREATED })
+    }
+
+    if (isExpired) {
+      throw new Exception('This Code is Expired, request a new code!', {
+        status: StatusCodes.LOCKED,
+      })
+    }
+
+    if (!emailVerificationCode || !isValid) {
+      throw new InvalidCredentialsException('Invalid code!')
+    }
+
+    await emailVerificationService.update(emailVerificationCode.id, {
+      isUsed: true,
+      expiresAt: DateTime.now(),
+    })
+
+    await userService.update(emailVerificationCode.userId, { emailVerified: true })
+
+    return response.ok({ success: true })
+  }
+
+  async sendEmailVerificationCode({ response, user }: HttpContext) {
+    if (!user) {
+      throw new UnAuthenticatedException('User not found!')
+    }
+    if (user.emailVerified) {
+      throw new Exception('User already verified', { status: StatusCodes.CONFLICT })
+    }
+    const { success, message } =
+      await emailVerificationService.generateAndSendVerificationCode(user)
+    response.json({ success, message })
   }
 
   async logout({ user, response }: HttpContext) {

@@ -9,8 +9,8 @@ export default class extends BaseSchema {
       table.string('email', 254).notNullable()
       table.string('token').notNullable()
       table.dateTime('expires_at').notNullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table.timestamp('created_at').defaultTo(this.now())
+      table.timestamp('updated_at').defaultTo(this.now())
     })
   }
 
