@@ -7,6 +7,7 @@ import {
   MAIL_SECURE,
   SENDER_MAIL,
 } from '../../utils/secret.js'
+import logger from '@adonisjs/core/services/logger'
 
 class EmailService {
   // private client: postmark.ServerClient
@@ -41,17 +42,17 @@ class EmailService {
     html: string
   }) => {
     try {
-      console.log('Sending email using Nodemailer...', options)
+      logger.info({ data: options }, '[Sending email using Nodemailer...]')
       const response = await this.transporter.sendMail({
         from: options.from,
         to: options.to,
         subject: options.subject,
         html: options.html,
       })
-      console.log('Email sent successfully using Nodemailer:', response)
+      logger.info({ response }, '[Email sent successfully using Nodemailer]')
       return response
     } catch (error) {
-      console.error('Error sending email using Nodemailer:', error)
+      logger.error({ error }, '[Error while sending email using Nodemailer]')
       return error
     }
   }
