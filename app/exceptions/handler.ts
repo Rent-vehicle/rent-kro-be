@@ -14,12 +14,6 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    */
   public async handle(error: any, ctx: HttpContext) {
     super.handle(error, ctx)
-    if (error.status === 500) {
-      return ctx.response.status(500).json({
-        success: false,
-        message: 'Internal server Error, Something went wrong!',
-      })
-    }
 
     return ctx.response.status(500).json({
       success: false,

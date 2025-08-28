@@ -70,7 +70,7 @@ export default class AuthController {
       throw new NotFoundException('User not found')
     }
 
-    await authService.saveResetPasswordToken(user)
+    await authService.sendAndSaveResetPasswordToken(user)
 
     return response.json({
       message: 'Verification link sent to registered email successfully!',

@@ -20,7 +20,7 @@ class AuthService {
     return token.value?.release()
   }
 
-  public async saveResetPasswordToken(user: User) {
+  public async sendAndSaveResetPasswordToken(user: User) {
     const generatedToken = await userService.generateToken(user.email + user.firstName)
     const resetPasswordToken = await userService.findResetPasswordToken('email', user.email)
 
