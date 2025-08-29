@@ -1,7 +1,12 @@
 import redis from '@adonisjs/redis/services/main'
 
 export class RedisService {
+  private CONNECTION_NAME = 'main'
   private conn = redis.connection('main')
+
+  public getConnectionName() {
+    return this.CONNECTION_NAME
+  }
 
   async get<T>(key: string): Promise<T | null> {
     const raw = await this.conn.get(key)

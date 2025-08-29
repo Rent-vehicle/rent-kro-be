@@ -10,7 +10,11 @@ export default class AddService extends BaseCommand {
   @args.string({ argumentName: 'name', description: 'Name of the service', required: true })
   declare name: string
 
-  @args.string({ argumentName: 'folder', description: 'Folder name inside services' })
+  @args.string({
+    argumentName: 'folder',
+    description: 'Folder name inside services',
+    required: false,
+  })
   declare folder: string
 
   static options: CommandOptions = {}
