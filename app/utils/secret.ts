@@ -32,4 +32,9 @@ export const SENDER_MAIL_NAME = env.get('SENDER_MAIL_NAME')
 //Business configuration
 export const BUSINESS_NAME = env.get('BUSINESS_NAME')
 
+// Redis configuration
+export const REDIS_HOST = env.get('REDIS_HOST')
+export const REDIS_PORT = env.get('REDIS_PORT')
+export const REDIS_PASSWORD = env.get('REDIS_PASSWORD')
+
 // Message sent: <30bcff7b-a564-06d1-65eb-1b5567a4cd8c@gmail.com>
