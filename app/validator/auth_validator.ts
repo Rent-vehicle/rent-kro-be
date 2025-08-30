@@ -13,12 +13,7 @@ export const signupValidator = vine.compile(
     firstName: vine.string().trim(),
     lastName: vine.string().trim().optional(),
     email: vine.string().trim().email(),
-    password: vine
-      .string()
-      .trim()
-      .confirmed({ confirmationField: 'confirmPassword' })
-      .minLength(8)
-      .regex(passwordRegex),
+    password: vine.string().trim().minLength(8).regex(passwordRegex),
   })
 )
 

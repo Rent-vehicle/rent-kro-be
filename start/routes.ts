@@ -16,5 +16,6 @@ router.get('/', async () => {
   }
 })
 
-import '../app/routes/auth.js'
-import '../app/routes/user.js'
+import '../routes/auth.route.js'
+import '../routes/user.route.js'
+import '../routes/health_check.route.js'
