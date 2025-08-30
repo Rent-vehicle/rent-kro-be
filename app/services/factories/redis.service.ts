@@ -1,7 +1,7 @@
 import redis from '@adonisjs/redis/services/main'
 
 export class RedisService {
-  private CONNECTION_NAME = 'cache'
+  private CONNECTION_NAME = 'main'
   private conn = redis.connection(this.CONNECTION_NAME)
 
   public getConnectionName() {
