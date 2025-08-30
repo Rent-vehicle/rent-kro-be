@@ -10,6 +10,13 @@ const redisConfig = defineConfig({
       password: REDIS_PASSWORD,
       db: 0,
       keyPrefix: '',
+      tls: {},
+
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+      retryStrategy(times: number) {
+        return Math.min(times * 50, 2000) // reconnect every 50ms up to 2s
+      },
     },
   },
 })
