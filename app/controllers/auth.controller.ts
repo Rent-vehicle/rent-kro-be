@@ -24,7 +24,7 @@ export default class AuthController {
   public async signup({ request, response }: HttpContext) {
     const sanitizedData = await request.validateUsing(signupValidator)
 
-    const existingUser = await authService.findByEmail(sanitizedData.email)
+    const existingUser = await userService.findCacheByEmail(sanitizedData.email)
 
     if (existingUser) {
       throw new ModelAlreadyExistsException(

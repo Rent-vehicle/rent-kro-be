@@ -1,8 +1,8 @@
 import redis from '@adonisjs/redis/services/main'
 
 export class RedisService {
-  private CONNECTION_NAME = 'main'
-  private conn = redis.connection('main')
+  private CONNECTION_NAME = 'cache'
+  private conn = redis.connection(this.CONNECTION_NAME)
 
   public getConnectionName() {
     return this.CONNECTION_NAME
@@ -20,6 +20,16 @@ export class RedisService {
     } else {
       await this.conn.set(key, payload)
     }
+  }
+
+  async getOrSet<T>(key: string, factory: () => Promise<T>, ttlSeconds?: number): Promise<T> {
+    const cached = await this.get<T>(key)
+    if (cached) {
+      return cached
+    }
+    const value = await factory()
+    await this.set<T>(key, value, ttlSeconds)
+    return value
   }
 
   async del(key: string) {
