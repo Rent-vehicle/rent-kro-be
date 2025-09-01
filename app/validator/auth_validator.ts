@@ -33,17 +33,18 @@ export const forgetPasswordValidator = vine.compile(
 export const resetPasswordValidator = vine.compile(
   vine.object({
     token: vine.string().trim(),
-    password: vine
-      .string()
-      .trim()
-      .confirmed({ confirmationField: 'confirmPassword' })
-      .minLength(8)
-      .regex(passwordRegex),
+    password: vine.string().trim().minLength(8).regex(passwordRegex),
   })
 )
 
 export const verifyEmailValidator = vine.compile(
   vine.object({
     code: vine.string().trim().maxLength(6).minLength(6),
+  })
+)
+
+export const googleLoginValidator = vine.compile(
+  vine.object({
+    token: vine.string().trim(),
   })
 )

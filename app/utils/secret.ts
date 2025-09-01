@@ -37,4 +37,8 @@ export const REDIS_HOST = env.get('REDIS_HOST')
 export const REDIS_PORT = env.get('REDIS_PORT')
 export const REDIS_PASSWORD = env.get('REDIS_PASSWORD')
 
+// Google OAuth configuration
+export const GOOGLE_CLIENT_ID = env.get('GOOGLE_CLIENT_ID')
+export const GOOGLE_CLIENT_SECRET = env.get('GOOGLE_CLIENT_SECRET')
+
 // Message sent: <30bcff7b-a564-06d1-65eb-1b5567a4cd8c@gmail.com>

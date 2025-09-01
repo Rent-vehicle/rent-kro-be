@@ -1,6 +1,7 @@
 import EmailVerificationCode from '#models/email_verification_code'
 import User from '#models/user'
 import { emailService } from '#services/factories/email.service'
+import logger from '@adonisjs/core/services/logger'
 import { DateTime } from 'luxon'
 import {
   EmailVerificationCodeCreateDTO,
@@ -107,7 +108,7 @@ class EmailVerification {
       const { success, message } = await this.sendEmailVerificationCode(user, code)
       return { success, message }
     } catch (error) {
-      console.error('Error generating or saving verification code:', error)
+      logger.error('Error generating or saving verification code:', error)
       return { message: 'Failed to generate or send verification code', success: false, error }
     }
   }
@@ -130,7 +131,7 @@ class EmailVerification {
       })
       return { message: 'Verification code sent successfully', success: true, response }
     } catch (error) {
-      console.error('Error generating or saving verification code:', error)
+      logger.error(error, '[Error generating or saving verification code:]')
       return { message: 'Failed to send verification code', success: false, error }
     }
   }
