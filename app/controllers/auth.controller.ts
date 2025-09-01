@@ -23,7 +23,6 @@ import {
   signupValidator,
   verifyEmailValidator,
 } from '../validator/auth_validator.js'
-import logger from '@adonisjs/core/services/logger'
 
 export default class AuthController {
   public async signup({ request, response }: HttpContext) {
