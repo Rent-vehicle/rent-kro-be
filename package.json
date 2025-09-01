@@ -59,6 +59,7 @@
     "@adonisjs/lucid": "^21.6.1",
     "@adonisjs/redis": "^9.2.0",
     "@vinejs/vine": "^3.0.1",
+    "axios": "^1.11.0",
     "http-status-codes": "^2.3.0",
     "luxon": "^3.7.1",
     "nodemailer": "^7.0.5",

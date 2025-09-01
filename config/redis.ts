@@ -10,7 +10,7 @@ const redisConfig = defineConfig({
       password: REDIS_PASSWORD,
       db: 0,
       keyPrefix: '',
-      tls: {},
+      // tls: {},
 
       maxRetriesPerRequest: null,
       enableReadyCheck: false,

@@ -68,12 +68,7 @@ class UserService {
   }
 
   public async createUser(userData: UserCreateDTO): Promise<User> {
-    const user = await User.create({
-      email: userData.email,
-      password: userData.password,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-    })
+    const user = await User.create({ ...userData })
     redisService.set(this.REDIS_KEYS.USER_BY_ID(user.id), user, this.REDIS_TTL)
     return user
   }
@@ -150,6 +145,18 @@ class UserService {
   async updatePassword(user: User, password: string) {
     user.password = password
     user.save()
+  }
+
+  async findByEmailOrCreate(data: UserCreateDTO): Promise<User> {
+    let user = await this.findByEmail(data.email)
+
+    if (!user) {
+      user = await this.createUser(data)
+      redisService.set(this.REDIS_KEYS.USER_BY_EMAIL(data.email), user, this.REDIS_TTL)
+    } else {
+      this.update(user.id, data as any)
+    }
+    return user
   }
 }
 

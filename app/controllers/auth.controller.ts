@@ -7,18 +7,23 @@ import User from '#models/user'
 import { authService } from '#services/entities/auth.service'
 import { emailVerificationService } from '#services/entities/email_verification_code.service'
 import { userService } from '#services/entities/user.service'
+import { oauthService } from '#services/factories/oAuth.service'
 import { Exception } from '@adonisjs/core/exceptions'
 import { HttpContext } from '@adonisjs/core/http'
 import { StatusCodes } from 'http-status-codes'
 import { DateTime } from 'luxon'
+import { UserCreateDTO } from '../constants/dto/user/user.js'
 import { userTransformer } from '../transformer/user/user_base_transformer.js'
+import { spiltName } from '../utils/helpers.js'
 import {
   forgetPasswordValidator,
+  googleLoginValidator,
   loginValidator,
   resetPasswordValidator,
   signupValidator,
   verifyEmailValidator,
 } from '../validator/auth_validator.js'
+import logger from '@adonisjs/core/services/logger'
 
 export default class AuthController {
   public async signup({ request, response }: HttpContext) {
@@ -162,5 +167,27 @@ export default class AuthController {
     await User.accessTokens.delete(user, user.currentAccessToken!.identifier)
 
     return response.json({ message: 'Logged-out successfully.' })
+  }
+
+  async googleLogin({ request, response }: HttpContext) {
+    const { token } = await request.validateUsing(googleLoginValidator)
+
+    const { email, given_name, name, picture, verified_email } =
+      await oauthService.getGoogleUserInfo(token)
+    const userData: UserCreateDTO = {
+      email,
+      firstName: spiltName(name).firstName,
+      lastName: spiltName(name).lastName,
+      emailVerified: verified_email,
+      avatarUrl: picture,
+      cognitoSub: token,
+      displayName: given_name,
+    }
+    const user = await userService.findByEmailOrCreate(userData)
+    const accessToken = await authService.createAccessToken(user)
+    return response.json({
+      token: accessToken,
+      user: userTransformer(user),
+    })
   }
 }
