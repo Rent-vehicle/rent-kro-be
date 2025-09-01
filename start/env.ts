@@ -36,9 +36,8 @@ export default await Env.create(new URL('../', import.meta.url), {
   REDIS_HOST: Env.schema.string(),
   REDIS_PORT: Env.schema.number(),
   REDIS_PASSWORD: Env.schema.string.optional(),
+  REDIS_TLS_ENABLED: Env.schema.boolean.optional(),
 
-  // | Variables for configuring ally package
-
-  GOOGLE_CLIENT_ID: Env.schema.string(),
-  GOOGLE_CLIENT_SECRET: Env.schema.string(),
+  GOOGLE_CLIENT_ID: Env.schema.string.optional(),
+  GOOGLE_CLIENT_SECRET: Env.schema.string.optional(),
 })

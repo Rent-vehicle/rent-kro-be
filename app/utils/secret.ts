@@ -36,6 +36,7 @@ export const BUSINESS_NAME = env.get('BUSINESS_NAME')
 export const REDIS_HOST = env.get('REDIS_HOST')
 export const REDIS_PORT = env.get('REDIS_PORT')
 export const REDIS_PASSWORD = env.get('REDIS_PASSWORD')
+export const REDIS_TLS_ENABLED = env.get('REDIS_TLS_ENABLED')
 
 // Google OAuth configuration
 export const GOOGLE_CLIENT_ID = env.get('GOOGLE_CLIENT_ID')
