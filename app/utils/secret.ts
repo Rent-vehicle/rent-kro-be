@@ -42,4 +42,10 @@ export const REDIS_TLS_ENABLED = env.get('REDIS_TLS_ENABLED')
 export const GOOGLE_CLIENT_ID = env.get('GOOGLE_CLIENT_ID')
 export const GOOGLE_CLIENT_SECRET = env.get('GOOGLE_CLIENT_SECRET')
 
+// AWS S3 configuration
+export const AWS_ACCESS_KEY_ID = env.get('AWS_ACCESS_KEY_ID')
+export const AWS_SECRET_ACCESS_KEY = env.get('AWS_SECRET_ACCESS_KEY')
+export const AWS_REGION = env.get('AWS_REGION')
+export const AWS_BUCKET_NAME = env.get('AWS_BUCKET_NAME')
+
 // Message sent: <30bcff7b-a564-06d1-65eb-1b5567a4cd8c@gmail.com>
